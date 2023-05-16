@@ -54,7 +54,7 @@ function App() {
   const columns = [
     {
       field: 'name',
-      headerName: 'Player Name',
+      headerName: 'Player',
       width: 200,
       valueGetter: (params) =>
         params.row.player ? params.row.player.name : 'N/A',
@@ -68,28 +68,28 @@ function App() {
     },
     {
       field: 'games',
-      headerName: 'Games Played',
+      headerName: 'GP',
       width: 200,
       valueGetter: (params) =>
         params.row.statistics[0].games ? params.row.statistics[0].games.appearences : 'N/A',
     },
     {
       field: 'yellowCards',
-      headerName: 'Yellow Cards',
+      headerName: 'YC',
       width: 200,
       valueGetter: (params) =>
         params.row.statistics[0].cards ? params.row.statistics[0].cards.yellow : 'N/A',
     },
     {
       field: 'minutes',
-      headerName: 'Minutes Played',
+      headerName: 'Mins',
       width: 200,
       valueGetter: (params) =>
         params.row.statistics[0].games ? params.row.statistics[0].games.minutes : 'N/A',
     },
     {
       field: 'yellowCardPrice',
-      headerName: 'Yellow Card Price',
+      headerName: 'YC Price',
       width: 200,
       valueGetter: (params) => 
         params.row.statistics[0].cards && params.row.statistics[0].games
