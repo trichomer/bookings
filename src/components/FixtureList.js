@@ -7,21 +7,31 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 function FixtureList() {
   const [fixtures, setFixtures] = useState(null);
   const [error, setError] = useState(null);
+  const [expanded, setExpanded] = useState('panel0');
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/fixtures?league=140&season=2022', {
+        const responseLaLiga = await axios.get('/fixtures?league=140&season=2022', {
           headers: { 'x-rapidapi-key': process.env.REACT_APP_API_KEY }
         });
-        setFixtures(response.data.response);
+        const responseSerieA = await axios.get('/fixtures?league=135&season=2022', {
+          headers: { 'x-rapidapi-key': process.env.REACT_APP_API_KEY }
+        });
+        const combinedFixtures = [...responseLaLiga.data.response, ...responseSerieA.data.response];
+        setFixtures(combinedFixtures);
       } catch (error) {
         setError(error.message);
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -41,24 +51,36 @@ function FixtureList() {
     return groups;
   }, {});
 
+  const fixturesByDate = Object.entries(groupedFixtures);
+
   return (
     <div>
       <h1>Fixtures</h1>
-      {Object.entries(groupedFixtures).map(([date, fixtures]) => (
-        <Accordion key={date}>
+      {fixturesByDate.map(([date, fixturesOnDate], index) => (
+        <Accordion key={date} expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
+            aria-controls={`panel${index}-content`}
+            id={`panel${index}-header`}
           >
             <Typography>{date}</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {fixtures.map((fixture) => (
-              <Card key={fixture.fixture.id} sx={{ mb: 2 }}>
-                <CardContent>
-                  <Link to={`/fixture/${fixture.fixture.id}`}>{fixture.teams.home.name} vs {fixture.teams.away.name}</Link>
-                </CardContent>
-              </Card>
+            <div>
+              {fixturesOnDate.map((fixture) => (
+                <Link to={`/fixture/${fixture.fixture.id}`} key={fixture.fixture.id} style={{ textDecoration: 'none' }}>
+                  <Card style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                    <CardContent style={{ display: 'flex', alignItems: 'center' }}>
+                      <img src={fixture.teams.home.logo} alt={`${fixture.teams.home.name} logo`} style={{ width: '50px', marginRight: '10px' }}/>
+                      <Typography>{fixture.teams.home.name}</Typography>
+                      <Typography style={{ margin: '0 10px' }}>vs</Typography>
+                      <Typography>{fixture.teams.away.name}</Typography>
+                      <img src={fixture.teams.away.logo} alt={`${fixture.teams.away.name} logo`} style={{ width: '50px', marginLeft: '10px' }}/>
+                    </CardContent>
+                  </Card>
+                </Link>
             ))}
+            </div>
           </AccordionDetails>
         </Accordion>
       ))}
