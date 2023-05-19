@@ -14,36 +14,28 @@ const FixtureDetails = () => {
           'x-rapidapi-key': process.env.REACT_APP_API_KEY,
         },
       });
-      console.log(fixtureRes);
-      console.log(fixtureRes.data);
 
-      
       const fixtureDetails = fixtureRes?.data?.response?.[0];
-      console.log(fixtureDetails);
     
       if (fixtureDetails) {
         const homeTeam = fixtureDetails.teams.home.id;
         const awayTeam = fixtureDetails.teams.away.id;
-      
-        const homeTeamRes = await axios.get(`/players?team=${homeTeam}`, {
+
+        const homeTeamRes = await axios.get(`/players?team=${homeTeam}&season=2022`, {
           headers: {
             'x-rapidapi-key': process.env.REACT_APP_API_KEY,
           },
         });
-        console.log(homeTeamRes.data);
-      
-        const awayTeamRes = await axios.get(`/players?team=${awayTeam}`, {
+
+        const awayTeamRes = await axios.get(`/players?team=${awayTeam}&season=2022`, {
           headers: {
             'x-rapidapi-key': process.env.REACT_APP_API_KEY,
           },
         });
-        console.log(awayTeamRes.data);
-      
+
         const homeTeamPlayers = homeTeamRes.data.response;
-        console.log(homeTeamPlayers);
         const awayTeamPlayers = awayTeamRes.data.response;
-        console.log(awayTeamPlayers);
-      
+
         const combinedStats = [...homeTeamPlayers, ...awayTeamPlayers].map((player) => {
           const yellowCardPrice = player.statistics[0].cards.yellow === 0
             ? '-'
@@ -67,57 +59,15 @@ const FixtureDetails = () => {
   }, [id]);
 
   const columns = [
-      {
-        field: 'id', 
-        headerName: 'ID', 
-        width: 70, 
-        hide: true,
-    },
-    {
-        field: 'playerName', 
-        headerName: 'Player', 
-        width: 200, 
-    },
-    {
-        field: 'teamName', 
-        headerName: 'Team', 
-        width: 150,
-    },
-    {
-        field: 'position', 
-        headerName: 'Position', 
-        width: 130,
-    },
-    {
-        field: 'rating', 
-        headerName: 'Rating', 
-        width: 130,
-    },
-    {
-        field: 'minutes', 
-        headerName: 'Minutes Played', 
-        width: 180,
-    },
-    {
-        field: 'yellowCards', 
-        headerName: 'Yellow Cards', 
-        width: 150,
-    },
-    {
-        field: 'redCards', 
-        headerName: 'Red Cards', 
-        width: 130,
-    },
-    {
-        field: 'fouls', 
-        headerName: 'Fouls Committed', 
-        width: 180,
-    },
-    {
-        field: 'yellowCardPrice', 
-        headerName: 'Yellow Card Price', 
-        width: 200,
-    },
+    { field: 'id', headerName: 'ID', width: 70, hide: true },
+    { field: 'playerName', headerName: 'Player', width: 200 },
+    { field: 'teamName', headerName: 'Team', width: 150 },
+    { field: 'position', headerName: 'Position', width: 130 },
+    { field: 'minutes', headerName: 'Minutes Played', width: 180 },
+    { field: 'yellow', headerName: 'Yellow Cards', width: 150 },
+    { field: 'yellowred', headerName: 'YellowRed Cards', width: 150 },
+    { field: 'red', headerName: 'Red Cards', width: 130 },
+    { field: 'yellowCardPrice', headerName: 'Yellow Card Price', width: 200 },
   ];
     
   const rows = details.map((item, index) => {
@@ -129,7 +79,7 @@ const FixtureDetails = () => {
   });
 
   return (
-    <div style={{ height: 500, width: '100%' }}>
+    <div style={{ height: 900, width: '100%' }}>
       <DataGrid rows={rows} columns={columns} pageSize={10} />
     </div>
   );
