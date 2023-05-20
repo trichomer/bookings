@@ -12,6 +12,27 @@ const FixtureDetails = () => {
     return theme.palette.mode === 'dark' ? alpha(theme.palette.divider, 0.7) : theme.palette.divider;
   };
 
+  const fetchAllPlayers = async (team, season) => {
+    let page = 1;
+    let players = [];
+    let hasMore = true;
+
+    while (hasMore) {
+      const res = await axios.get(`/players?team=${team}&season=${season}&page=${page}`, {
+        headers: {
+          'x-rapidapi-key': process.env.REACT_APP_API_KEY,
+        },
+      });
+
+      players = [...players, ...res.data.response];
+
+      hasMore = res.data.response.length > 0;
+      page++;
+    }
+
+    return players;
+  };
+
   useEffect(() => {
     const fetchDetails = async () => {
       const fixtureRes = await axios.get(`/fixtures/?id=${id}`, {
@@ -26,20 +47,8 @@ const FixtureDetails = () => {
         const homeTeam = fixtureDetails.teams.home.id;
         const awayTeam = fixtureDetails.teams.away.id;
 
-        const homeTeamRes = await axios.get(`/players?team=${homeTeam}&season=2022`, {
-          headers: {
-            'x-rapidapi-key': process.env.REACT_APP_API_KEY,
-          },
-        });
-
-        const awayTeamRes = await axios.get(`/players?team=${awayTeam}&season=2022`, {
-          headers: {
-            'x-rapidapi-key': process.env.REACT_APP_API_KEY,
-          },
-        });
-
-        const homeTeamPlayers = homeTeamRes.data.response;
-        const awayTeamPlayers = awayTeamRes.data.response;
+        const homeTeamPlayers = await fetchAllPlayers(homeTeam, 2022);
+        const awayTeamPlayers = await fetchAllPlayers(awayTeam, 2022);
 
         const combinedStats = [...homeTeamPlayers, ...awayTeamPlayers].map((player) => {
           const yellowCardPrice = player.statistics[0].cards.yellow === 0
@@ -48,6 +57,7 @@ const FixtureDetails = () => {
       
           return {
             player: player.player,
+            teamLogo: player.statistics[0].team.logo,
             combinedStatistics: {
               ...player.statistics[0].games,
               ...player.statistics[0].cards,
@@ -64,9 +74,15 @@ const FixtureDetails = () => {
   }, [id]);
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70, hide: true },
+    { 
+      field: 'teamLogo', 
+      headerName: 'Team', 
+      width: 50,
+      renderCell: (params) => (
+        <img src={params.value} alt="Team logo" style={{ width: '20px', marginRight: '10px' }}/>
+      )
+    },
     { field: 'playerName', headerName: 'Player', width: 200 },
-    { field: 'teamName', headerName: 'Team', width: 150 },
     { field: 'position', headerName: 'Pos', width: 130 },
     { field: 'minutes', headerName: 'Mins', width: 180 },
     { field: 'yellow', headerName: 'YC', width: 150 },
@@ -80,6 +96,7 @@ const FixtureDetails = () => {
       id: item.player.id, 
       ...item.combinedStatistics,
       playerName: item.player.name,
+      teamLogo: item.teamLogo,
     };
   });
 
