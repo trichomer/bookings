@@ -11,13 +11,14 @@ const theme = createTheme({
       main: '#000000',
     },
     secondary: {
-      main: '#ffffff',
+      main: '#000000',
     },
     text: {
       primary: '#b3b3b3',
       secondary: '#b3b3b3',
     },
     background: {
+      paper: '#000000',
       default: '#000000',
     },
   },
