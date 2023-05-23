@@ -7,6 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 function FixtureList() {
   const [fixtures, setFixtures] = useState(null);
   const [error, setError] = useState(null);
+  const [fixturesByDate, setFixturesByDate] = useState([]);
   const [expanded, setExpanded] = useState('panel0');
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -24,14 +25,28 @@ function FixtureList() {
         });
         const combinedFixtures = [...responseLaLiga.data.response, ...responseSerieA.data.response];
         setFixtures(combinedFixtures);
+
+        // Group fixtures by date
+        const groupedFixtures = combinedFixtures.reduce((groups, fixture) => {
+          const date = fixture.fixture.date.split('T')[0]; // extract date part
+          if (!groups[date]) {
+            groups[date] = [];
+          }
+          groups[date].push(fixture);
+          return groups;
+        }, {});
+
+        // Convert the groupedFixtures object to an array and sort it by date
+        const sortedFixtures = Object.entries(groupedFixtures).sort((a, b) => new Date(a[0]) - new Date(b[0]));
+
+        setFixturesByDate(sortedFixtures);
       } catch (error) {
         setError(error.message);
       }
     };
-  
+
     fetchData();
   }, []);
-  
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -40,18 +55,6 @@ function FixtureList() {
   if (!fixtures) {
     return <div>Loading...</div>;
   }
-
-  // Group fixtures by date
-  const groupedFixtures = fixtures.reduce((groups, fixture) => {
-    const date = fixture.fixture.date.split('T')[0]; // extract date part
-    if (!groups[date]) {
-      groups[date] = [];
-    }
-    groups[date].push(fixture);
-    return groups;
-  }, {});
-
-  const fixturesByDate = Object.entries(groupedFixtures);
 
   return (
     <div>
@@ -79,7 +82,7 @@ function FixtureList() {
                     </CardContent>
                   </Card>
                 </Link>
-            ))}
+              ))}
             </div>
           </AccordionDetails>
         </Accordion>
