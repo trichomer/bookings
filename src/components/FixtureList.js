@@ -60,7 +60,11 @@ function FixtureList() {
     <div>
       <h1>Fixtures</h1>
       {fixturesByDate.map(([date, fixturesOnDate], index) => (
-        <Accordion key={date} expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
+        <Accordion 
+          key={date} 
+          expanded={expanded === `panel${index}`} 
+          onChange={handleChange(`panel${index}`)}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls={`panel${index}-content`}

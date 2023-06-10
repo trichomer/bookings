@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import FixtureList from './FixtureList';
+import LeagueList from './LeagueList';
 import FixtureDetails from './FixtureDetails';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
@@ -49,7 +50,14 @@ function App() {
       <div style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}>
       <Router>
         <Routes>
-          <Route path="/" element={<FixtureList />} />
+          <Route 
+            path="/" 
+            element={
+              <div>
+                <LeagueList />
+                <FixtureList />
+              </div>    
+            } />
           <Route path="/fixture/:id" element={<FixtureDetails />} />
         </Routes>
       </Router>
