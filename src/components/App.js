@@ -8,18 +8,29 @@ const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#000000',
+      main: '#b0bec5',
     },
     secondary: {
-      main: '#000000',
-    },
-    text: {
-      primary: '#b3b3b3',
-      secondary: '#b3b3b3',
+      main: '#78909c',
     },
     background: {
-      paper: '#000000',
-      default: '#000000',
+      default: '#000000',  // Dark gray background
+      paper: '#333333',
+    },
+    text: {
+      primary: '#b0bec5',  // Light gray text
+    },
+  },
+  components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: '5px',
+          border: '1px solid #000000',
+          boxShadow: 'inset 0 0 10px #b0bec5',
+          
+        }
+      }
     },
   },
 });

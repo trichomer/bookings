@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
-import { useTheme, alpha } from '@mui/material/styles';
 import axios from 'axios';
 import PlayerHistory from './PlayerHistory';
 
@@ -9,10 +8,6 @@ const FixtureDetails = () => {
   const [details, setDetails] = useState([]);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const { id } = useParams();
-  const theme = useTheme();
-  const getGridBorderColor = () => {
-    return theme.palette.mode === 'dark' ? alpha(theme.palette.divider, 0.7) : theme.palette.divider;
-  };
 
   const handleRowClick = (param) => {
     setSelectedPlayer(param.id);
@@ -113,13 +108,13 @@ const FixtureDetails = () => {
         columns={columns} 
         pageSize={10}
         onRowClick={handleRowClick}
-        style={{
-          borderColor: getGridBorderColor(),
-          backgroundColor: theme.palette.background.paper,
-          color: theme.palette.text.primary,
-        }} 
       />
-      {selectedPlayer && <PlayerHistory playerId={selectedPlayer} open={!!selectedPlayer} onClose={() => setSelectedPlayer(null)} />}
+      {selectedPlayer &&
+       <PlayerHistory 
+        playerId={selectedPlayer} 
+        open={!!selectedPlayer} 
+        onClose={() => setSelectedPlayer(null)} 
+      />}
     </div>
   );
 };
