@@ -28,15 +28,14 @@ const theme = createTheme({
           borderRadius: '5px',
           border: '1px solid #000000',
           boxShadow: 'inset 0 0 10px #b0bec5',
-          
         }
       }
     },
     MuiAccordion: {
       styleOverrides: {
         root: {
-          borderRadius: '5px',
-          border: '1px solid #000000',
+          borderRadius: '2px',
+          border: '1px solid #ffffff',
           boxShadow: 'inset 0 0 10px #b0bec5',
         }
       }
