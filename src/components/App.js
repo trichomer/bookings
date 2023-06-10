@@ -32,6 +32,15 @@ const theme = createTheme({
         }
       }
     },
+    MuiAccordion: {
+      styleOverrides: {
+        root: {
+          borderRadius: '5px',
+          border: '1px solid #000000',
+          boxShadow: 'inset 0 0 10px #b0bec5',
+        }
+      }
+    },
   },
 });
 
