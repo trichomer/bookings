@@ -6,28 +6,28 @@ function LeagueList() {
     const [teams, setTeams] = useState([]);
     const [error, setError] = useState(null);
 
-    const leagues = [
+    useEffect(() => {
+      const leagues = [
         135, // Serie A
         140, // La Liga
-    ];
-    useEffect(() => {
-        const fetchTeams = async () => {
-          try {
-            const allTeams = [];
-            for (let i = 0; i < leagues.length; i++) {
-              const response = await axios.get(`/teams?league=${leagues[i]}&season=2022`, {
-                headers: { 'x-rapidapi-key': process.env.REACT_APP_API_KEY }
-              });
-              allTeams.push(...response.data.response);
-            }
-            setTeams(allTeams);
-          } catch (error) {
-            setError(error.message);
+      ];
+      const fetchTeams = async () => {
+        try {
+          const allTeams = [];
+          for (let i = 0; i < leagues.length; i++) {
+            const response = await axios.get(`/teams?league=${leagues[i]}&season=2022`, {
+              headers: { 'x-rapidapi-key': process.env.REACT_APP_API_KEY }
+            });
+            allTeams.push(...response.data.response);
           }
-        };
-    
-        fetchTeams();
-      }, [leagues]);
+          setTeams(allTeams);
+        } catch (error) {
+          setError(error.message);
+        }
+      };
+  
+      fetchTeams();
+    }, []);
     
       if (error) {
         return <div>Error: {error}</div>;
