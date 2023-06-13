@@ -47,7 +47,6 @@ function LeagueList() {
                         src={`https://media.api-sports.io/football/teams/${team.team.id}.png`}
                         alt={`${team.team.name} Logo`} 
                         style={{ width: '50px', marginRight: '10px' }}
-                        onError={(e)=>{e.target.onerror = null; e.target.src="default_image_url"}}
                       />
                       <Typography>
                         {team.team.name}
