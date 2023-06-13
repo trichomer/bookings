@@ -75,14 +75,26 @@ function FixtureList() {
           <AccordionDetails>
             <div>
               {fixturesOnDate.map((fixture) => (
-                <Link to={`/fixture/${fixture.fixture.id}`} key={fixture.fixture.id} style={{ textDecoration: 'none' }}>
+                <Link 
+                  to={`/fixture/${fixture.fixture.id}`} 
+                  key={fixture.fixture.id} 
+                  style={{ textDecoration: 'none' }}
+                >
                   <Card style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                     <CardContent style={{ display: 'flex', alignItems: 'center' }}>
-                      <img src={fixture.teams.home.logo} alt={`${fixture.teams.home.name} logo`} style={{ width: '50px', marginRight: '10px' }}/>
+                      <img 
+                        src={fixture.teams.home.logo} 
+                        alt={`${fixture.teams.home.name} logo`} 
+                        style={{ width: '50px', marginRight: '10px' }}
+                      />
                       <Typography>{fixture.teams.home.name}</Typography>
                       <Typography style={{ margin: '0 10px' }}>vs</Typography>
                       <Typography>{fixture.teams.away.name}</Typography>
-                      <img src={fixture.teams.away.logo} alt={`${fixture.teams.away.name} logo`} style={{ width: '50px', marginLeft: '10px' }}/>
+                      <img 
+                        src={fixture.teams.away.logo} 
+                        alt={`${fixture.teams.away.name} logo`} 
+                        style={{ width: '50px', marginLeft: '10px' }}
+                      />
                     </CardContent>
                   </Card>
                 </Link>
