@@ -41,16 +41,19 @@ function LeagueList() {
         <div>
             <h1>Teams</h1>
                 {teams.map((team, index) => (
-                    <Card key={index} style={{ marginBottom: '10px' }}>
-                        <CardContent>
-                            <img 
-                                src={team.logo} 
-                                alt={`${team.name} logo`} 
-                                style={{ width: '50px', marginRight: '10px' }}
-                            />
-            <Typography>{team.name}</Typography>
-                        </CardContent>
-                    </Card>
+                  <Card key={index} style={{ marginBottom: '10px' }}>
+                    <CardContent>
+                      <img 
+                        src={`https://media.api-sports.io/football/teams/${team.team.id}.png`}
+                        alt={`${team.team.name} Logo`} 
+                        style={{ width: '50px', marginRight: '10px' }}
+                        onError={(e)=>{e.target.onerror = null; e.target.src="default_image_url"}}
+                      />
+                      <Typography>
+                        {team.team.name}
+                      </Typography>
+                    </CardContent>
+                  </Card>
                 ))}
         </div>
     );
