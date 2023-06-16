@@ -48,19 +48,22 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}>
-      <Router>
-        <Routes>
-          <Route 
-            path="/" 
-            element={
-              <div>
-                <LeagueList />
-                <FixtureList />
-              </div>    
-            } />
-          <Route path="/fixture/:id" element={<FixtureDetails />} />
-        </Routes>
-      </Router>
+        <Router>
+          <Routes>
+            <Route 
+              path="/" 
+              element={
+                <div>
+                  <LeagueList />
+                  {/*<FixtureList />*/}
+                </div>    
+              } />
+            <Route 
+              path="/fixture/:id" 
+              element={<FixtureDetails />} 
+            />
+          </Routes>
+        </Router>
       </div>
     </ThemeProvider>
   );

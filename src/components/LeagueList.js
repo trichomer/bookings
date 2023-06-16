@@ -41,7 +41,10 @@ function LeagueList() {
         <div>
             <h1>Teams</h1>
                 {teams.map((team, index) => (
-                  <Card key={index} style={{ marginBottom: '10px' }}>
+                  <Card 
+                    key={index} 
+                    style={{ marginBottom: '10px' }}
+                  >
                     <CardContent>
                       <img 
                         src={`https://media.api-sports.io/football/teams/${team.team.id}.png`}
