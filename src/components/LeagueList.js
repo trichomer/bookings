@@ -6,7 +6,14 @@ function LeagueList() {
     const [teamsByLeague, setTeamsByLeague] = useState({});
     const [error, setError] = useState(null);
 
+    // Map leagueId -> League Names
+    const leagueNames = {
+      135: 'Serie A',
+      140: 'La Liga',
+    };
+
     useEffect(() => {
+      
       const leagues = [
         135, // Serie A
         140, // La Liga
@@ -43,7 +50,7 @@ function LeagueList() {
             <h1>Teams</h1>
             {Object.keys(teamsByLeague).map((leagueId, index) => (
               <div key={index}>
-                <h2>League {leagueId}</h2>
+                <h2>{leagueNames[leagueId]}</h2>
                 {teamsByLeague[leagueId].map((team, teamIndex) => (
                   <Card 
                     key={teamIndex} 
